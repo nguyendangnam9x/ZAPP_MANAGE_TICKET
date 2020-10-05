@@ -1,0 +1,311 @@
+<mvc:View xmlns="sap.m" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data" xmlns:l="sap.ui.layout"
+	xmlns:viz="sap.viz.ui5.controls" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form"
+	xmlns:semantic="sap.m.semantic" xmlns:footerbar="sap.ushell.ui.footerbar" controllerName="solman.controller.Home">
+	<semantic:DetailPage id="page" title="Home Page" navButtonPress="onNavBack" showNavButton="{device>/system/phone}" showFooter="false"
+		showSubHeader="false">
+		<semantic:content>
+			<!--START My Message - Assign To Me -->
+			<sap.ui.layout:Grid xmlns:sap.ui.layout="sap.ui.layout" id="grid_1" defaultSpan="XL12 L12 M12 S12" width="100%" containerQuery="false"
+				hSpacing="0.5" position="Center" vSpacing="0.5" visible="true">
+				<sap.ui.layout:content>
+					<Bar>
+						<contentLeft>
+							<Label text="My Messages"/>
+						</contentLeft>
+						<contentRight>
+							<!--<Button enabled="true" id="btn_edit" press="onEdit" text="Edit Ticket" type="Emphasized" tooltip="Edit Ticket"/>-->
+							<Button enabled="true" id="btn_create" press="onCreate" text="{i18n>btn_create_ticket}" type="Emphasized" tooltip="{i18n>btn_create_ticket}"/>
+							<!--<Button enabled="true" id="btn_myticket" press="onMyTicket" text="{i18n>btn_my_ticket}" type="Emphasized" tooltip="{i18n>btn_my_ticket}"/>-->
+						</contentRight>
+					</Bar>
+					<!--<Toolbar>-->
+					<!--	<Text id="txtSummaryAssign" text="Result List: 44 Message Found, Last Refresh: 14.10.2019 10:47:09"/>-->
+					<!--</Toolbar>-->
+				</sap.ui.layout:content>
+			</sap.ui.layout:Grid>
+			<sap.ui.layout:Grid xmlns:sap.ui.layout="sap.ui.layout" id="grid_content" defaultSpan="XL12 L12 M12 S12" width="100%" containerQuery="false"
+				hSpacing="0" position="Center" vSpacing="0" visible="true">
+				<sap.ui.layout:content>
+					<!-- START form Description -->
+					<f:SimpleForm class="editableForm" columnsL="2" columnsM="2" editable="true" id="form_information" layout="ResponsiveGridLayout"
+						maxContainerCols="2" minWidth="1024">
+						<f:content>
+							<!-- START Transaction Type -->
+							<Label text="Transaction Type" labelFor="transaction_type">
+								<layoutData>
+									<sap.ui.layout:GridData span="L2 M2"/>
+								</layoutData>
+							</Label>
+							<Select xmlns:sap.ui.core="sap.ui.core" selectedKey="all" id="transaction_type" forceSelection="false">
+								<items>
+									<sap.ui.core:ListItem text="All" key="all"/>
+									<sap.ui.core:ListItem text="Incident" key="ZMIN"/>
+									<sap.ui.core:ListItem text="Service Request" key="ZMRQ"/>
+									<sap.ui.core:ListItem text="Complaint" key="ZMCO"/>
+									<sap.ui.core:ListItem text="Request for Change" key="ZNCR"/>
+								</items>
+								<layoutData>
+									<sap.ui.layout:GridData span="L4 M4"/>
+								</layoutData>
+							</Select>
+							<!-- END Transaction Type -->
+							<!-- START Start Date -->
+							<Label text="(Requested start) From" labelFor="date_from">
+								<layoutData>
+									<sap.ui.layout:GridData span="L2 M2"/>
+								</layoutData>
+							</Label>
+							<DatePicker displayFormat="dd/MM/yyyy" valueFormat="yyyyMMdd" id="date_from">
+								<layoutData>
+									<sap.ui.layout:GridData span="L4 M4"/>
+								</layoutData>
+							</DatePicker>
+							<!-- END Start Date -->
+							<!-- START Status -->
+							<Label text="Status" labelFor="status">
+								<layoutData>
+									<sap.ui.layout:GridData span="L2 M2"/>
+								</layoutData>
+							</Label>
+							<Select xmlns:sap.ui.core="sap.ui.core" selectedKey="all" id="status" forceSelection="false">
+								<items>
+									<sap.ui.core:ListItem text="All" key="all"/>
+									<sap.ui.core:ListItem text="Open" key="open"/>
+									<sap.ui.core:ListItem text="Close" key="close"/>
+								</items>
+								<layoutData>
+									<sap.ui.layout:GridData span="L4 M4"/>
+								</layoutData>
+							</Select>
+							<!-- END Status -->
+							<!-- START End Date -->
+							<Label text="(Requested start) To" labelFor="date_to">
+								<layoutData>
+									<sap.ui.layout:GridData span="L2 M2"/>
+								</layoutData>
+							</Label>
+							<DatePicker id="date_to" displayFormat="dd/MM/yyyy" valueFormat="yyyyMMdd">
+								<layoutData>
+									<sap.ui.layout:GridData span="L4 M4"/>
+								</layoutData>
+							</DatePicker>
+							<!-- END End Date -->
+							<!-- START Priority -->
+							<Label text="Priority" labelFor="priority">
+								<layoutData>
+									<sap.ui.layout:GridData span="L2 M2"/>
+								</layoutData>
+							</Label>
+							<Select xmlns:sap.ui.core="sap.ui.core" selectedKey="all" id="priority" forceSelection="false">
+								<items>
+									<sap.ui.core:ListItem text="All" key="all"/>
+									<sap.ui.core:ListItem text="Very high" key="1"/>
+									<sap.ui.core:ListItem text="High" key="2"/>
+									<sap.ui.core:ListItem text="Medium" key="3"/>
+									<sap.ui.core:ListItem text="Low" key="4"/>
+								</items>
+								<layoutData>
+									<sap.ui.layout:GridData span="L4 M4"/>
+								</layoutData>
+							</Select>
+							<!-- END Priority -->
+							<FlexBox width="auto" class="sapUiTinyMarginTop" direction="Inherit" alignItems="Center" justifyContent="End" displayInline="true"
+								wrap="Wrap">
+								<items>
+									<Button text="Search" press="onSearch"/>
+								</items>
+								<layoutData>
+									<sap.ui.layout:GridData span="L12 M12"/>
+								</layoutData>
+							</FlexBox>
+							<FlexBox width="auto" direction="Inherit" alignItems="Center" justifyContent="End" displayInline="true" wrap="Wrap">
+								<items>
+									<Text id="txtTotal" text="Total: 0" class="colorRed sapUiMediumMarginEnd"/>
+									<Text id="txtOpen" text="Open: 0" class="sapUiMediumMarginEnd"/>
+									<Text id="txtClose" text="Close: 0"/>
+								</items>
+								<layoutData>
+									<sap.ui.layout:GridData span="L12 M12"/>
+								</layoutData>
+							</FlexBox>
+						</f:content>
+					</f:SimpleForm>
+				</sap.ui.layout:content>
+			</sap.ui.layout:Grid>
+			<sap.ui.layout:Grid xmlns:sap.ui.layout="sap.ui.layout" id="grid_2.2" defaultSpan="XL6 L6 M6 S12" width="100%" containerQuery="false"
+				hSpacing="0.5" position="Center" vSpacing="0" visible="true">
+				<sap.ui.layout:content>
+					<FlexBox width="auto" id="flb_3" direction="Inherit" alignItems="Center" alignContent="Start" displayInline="true" wrap="Wrap">
+						<items>
+							<Button enabled="true" id="btn_refresh" tooltip="Refresh" press="onRefresh" text="Refresh" class="sapUiTinyMarginEnd"/>
+							<Switch id="switchRefresh" change="onRefreshAuto" tooltip="Auto refresh">
+								<layoutData>
+									<FlexItemData growFactor="1"/>
+								</layoutData>
+							</Switch>
+						</items>
+					</FlexBox>
+					<FlexBox width="auto" id="flb_4" direction="Inherit" alignItems="Center" displayInline="true" wrap="Wrap">
+						<items>
+							<Label text="Filter:" labelFor="search_field_assign" design="Standard" class="sapUiTinyMarginEnd sapUiVisibleOnlyOnDesktop"/>
+							<SearchField width="100%" placeholder="Filter" id="search_field_assign" search="onSearch"/>
+						</items>
+					</FlexBox>
+				</sap.ui.layout:content>
+			</sap.ui.layout:Grid>
+			<sap.ui.layout:Grid xmlns:sap.ui.layout="sap.ui.layout" id="grid_result_list" defaultSpan="XL12 L12 M12 S12" width="100%"
+				containerQuery="false" hSpacing="0.5" position="Center" vSpacing="0.5" visible="true">
+				<sap.ui.layout:content>
+					<Bar>
+						<contentLeft>
+							<Label id="txt_info" text=""/>
+						</contentLeft>
+						<contentRight>
+							<Button enabled="true" tooltip="Add Ticket" press="onCreate" id="btn_add_ticket" icon="sap-icon://add"/>
+							<Button enabled="true" tooltip="Pie Chart" press="onChartPie" id="btn_chart" icon="sap-icon://pie-chart"/>
+							<Button enabled="true" tooltip="Table Personalization" press="onPersoButtonPressed" id="btn_split" icon="sap-icon://action-settings"/>
+						</contentRight>
+					</Bar>
+				</sap.ui.layout:content>
+			</sap.ui.layout:Grid>
+			<ScrollContainer height="200px" vertical="true">
+				<Table id="table_list_ticket" inset="false" items="{/ItemSet}" noDataText="No data" fixedLayout="false" showSeparators="All" growing="false"
+					updateFinished="onUpdateFinishedAlegation" growingThreshold="5" growingScrollToLoad="true">
+					<columns>
+						<Column id="idCol" vAlign="Middle" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false" visible="true"
+							width="auto">
+							<header>
+								<Label text="ID" id="lb_1"/>
+							</header>
+						</Column>
+						<Column id="descriptionCol" vAlign="Middle" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false"
+							width="auto">
+							<header>
+								<Label text="Description" id="lb_2"/>
+							</header>
+						</Column>
+						<Column id="requestedStartCol" vAlign="Middle" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false"
+							visible="true" width="auto">
+							<header>
+								<Label text="Requested start" id="lb_3"/>
+							</header>
+						</Column>
+						<Column id="priorityCol" vAlign="Middle" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false"
+							width="auto">
+							<header>
+								<Label text="Priority " id="lb_4"/>
+							</header>
+						</Column>
+						<Column id="transactionTypeCol" vAlign="Middle" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false"
+							visible="true" width="auto">
+							<header>
+								<Label text="Transaction type" id="lb_5"/>
+							</header>
+						</Column>
+						<Column id="firstResponseCol" vAlign="Middle" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false"
+							width="auto">
+							<header>
+								<Label text="First Response" id="lb_6"/>
+							</header>
+						</Column>
+						<Column id="dueByCol" vAlign="Middle" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false"
+							visible="true" width="auto">
+							<header>
+								<Label text="Due by" id="lb_7"/>
+							</header>
+						</Column>
+						<Column id="userStatusCol" vAlign="Middle" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false"
+							width="auto">
+							<header>
+								<Label text="User status" id="lb_8"/>
+							</header>
+						</Column>
+						<Column id="personResponsibleCol" vAlign="Middle" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false"
+							width="auto">
+							<header>
+								<Label text="Person responsible" id="lb_9"/>
+							</header>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Link press="onEdit" text="{TicketId}">
+									<customData>
+										<core:CustomData key="guid" value="{Guid}" writeToDom="true"/>
+									</customData>
+								</Link>
+								<Text text="{Description}"/>
+								<Text text="{RequestedStart}"/>
+								<Text text="{Priority}"/>
+								<Text text="{TransactionType}"/>
+								<Text text="{FirstResponseBy}"/>
+								<Text text="{DueBy}"/>
+								<Text text="{Status}"/>
+								<Text text="{MessProcess}"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</ScrollContainer>
+			<sap.ui.layout:Grid xmlns:sap.ui.layout="sap.ui.layout" id="grid_assign_sizing" defaultSpan="XL12 L12 M12 S12" width="100%"
+				containerQuery="false" hSpacing="0.5" position="Right" vSpacing="0.5" visible="true">
+				<sap.ui.layout:content>
+					<Bar>
+						<contentMiddle>
+							<Button enabled="false" tooltip="First page" id="btn_first_page" press="onFirstPage" icon="sap-icon://close-command-field"
+								type="Transparent" text="First"/>
+							<Button enabled="false" tooltip="Previous page" id="btn_prev_page" press="onPrevPage" icon="sap-icon://navigation-left-arrow"
+								type="Transparent" text="Back"/>
+							<Button enabled="false" tooltip="Next page" id="btn_next_page" press="onNextPage" icon="sap-icon://navigation-right-arrow"
+								type="Transparent" text="Next" iconFirst="false"/>
+							<Button enabled="false" tooltip="Last page" id="btn_last_page" press="onLastPage" icon="sap-icon://open-command-field" type="Transparent"
+								text="Last" iconFirst="false"/>
+						</contentMiddle>
+						<contentRight>
+							<FlexBox width="auto" id="flb_assign_page_size" direction="Inherit" alignItems="Center" justifyContent="End" wrap="Wrap">
+								<items>
+									<Label text="Maximum Number of Results:" design="Standard" class="sapUiTinyMarginEnd sapUiVisibleOnlyOnDesktop"/>
+									<Select xmlns:sap.ui.core="sap.ui.core" selectedKey="25" id="page_size" forceSelection="false" change="onChangePageSize">
+										<items>
+											<sap.ui.core:ListItem text="25" key="25"/>
+											<sap.ui.core:ListItem text="50" key="50"/>
+											<sap.ui.core:ListItem text="75" key="75"/>
+											<sap.ui.core:ListItem text="100" key="100"/>
+										</items>
+									</Select>
+								</items>
+							</FlexBox>
+						</contentRight>
+					</Bar>
+				</sap.ui.layout:content>
+			</sap.ui.layout:Grid>
+			<sap.ui.layout:Grid xmlns:sap.ui.layout="sap.ui.layout" id="grid131" defaultSpan="XL12 L12 M12 S12" width="100%" containerQuery="false"
+				hSpacing="0.5" position="Center" vSpacing="0" visible="true">
+				<sap.ui.layout:content>
+					<viz:VizFrame id="oVizFrame" visible="true" vizProperties="{ title: {text : 'Chart Pie', visible : false}, 
+						plotArea:{ dataLabel:{ visible:true }}}"
+						uiConfig="{ 'applicationSet': 'fiori' }" vizType="pie" legendVisible="true" width="100%">
+						<viz:dataset>
+							<viz.data:FlattenedDataset data="{/results}">
+								<viz.data:dimensions>
+									<viz.data:DimensionDefinition name="Status" value="{Status}"/>
+								</viz.data:dimensions>
+								<viz.data:measures>
+									<viz.data:MeasureDefinition name="Count" value="{Count}"/>
+								</viz.data:measures>
+							</viz.data:FlattenedDataset>
+						</viz:dataset>
+						<viz:feeds>
+							<viz.feeds:FeedItem uid="size" type="Measure" values="Count"/>
+							<viz.feeds:FeedItem uid="color" type="Dimension" values="Status"/>
+						</viz:feeds>
+						<viz:layoutData>
+							<l:GridData id="__data43" span="L12 M12 S12"/>
+						</viz:layoutData>
+					</viz:VizFrame>
+				</sap.ui.layout:content>
+			</sap.ui.layout:Grid>
+		</semantic:content>
+	</semantic:DetailPage>
+</mvc:View>
